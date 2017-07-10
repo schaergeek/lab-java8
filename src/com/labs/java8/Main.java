@@ -4,10 +4,18 @@
     import java.util.*;
     import java.util.stream.Collectors;
 
+    import static java.util.stream.Collectors.toList;
+
     public class Main {
 
         public static void main(String[] args) {
-        // write your code here
+
+            List<String> noNullNames = getDevelopers().stream().filter(e->Objects.nonNull(e.getName()))
+                    .map(e->e.getName().toUpperCase()).collect(toList());
+
+            noNullNames.forEach(System.out::println);
+            
+            // write your code here
             System.out.println("Java 8");
             System.out.println("Before sort");
 
@@ -116,9 +124,10 @@
             System.out.println("List iteration with lambdas");
             items.stream().filter(e->e.equalsIgnoreCase("c")).forEach(System.out::println);
 
-            List<String> developersName = getDevelopers().stream().map(Developer::getName).collect(Collectors.toList());
+            List<String> developersName = getDevelopers().stream().map(Developer::getName).collect(toList());
 
             developersName.forEach(System.out::println);
+
 
 
         }
@@ -131,6 +140,7 @@
             developers.add(new Developer("manu", new BigDecimal(6000), 30));
             developers.add(new Developer("mathias", new BigDecimal(7900), 47));
             developers.add(new Developer("rachid", new BigDecimal(1500), 17));
+            developers.add(new Developer(null, new BigDecimal(0000), 00));
 
             return developers;
         }
