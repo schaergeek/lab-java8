@@ -1,8 +1,10 @@
-    package com.company;
+    package com.labs.java8;
 
+    import com.labs.java8.model.Developer;
+
+    import javax.swing.*;
     import java.math.BigDecimal;
     import java.util.*;
-    import java.util.stream.Collectors;
 
     import static java.util.stream.Collectors.toList;
 
@@ -13,8 +15,11 @@
             List<String> noNullNames = getDevelopers().stream().filter(e->Objects.nonNull(e.getName()))
                     .map(e->e.getName().toUpperCase()).collect(toList());
 
-            noNullNames.forEach(System.out::println);
-            
+            getDevelopers().stream().filter(e->Objects.nonNull(e.getName()))
+                    .map(e->e.getName().toUpperCase()).collect(toList()).forEach(System.out::println);
+
+            //noNullNames.forEach(System.out::println);
+
             // write your code here
             System.out.println("Java 8");
             System.out.println("Before sort");
@@ -50,17 +55,26 @@
                 System.out.println(developer);
             }*/
 
-            System.out.println("#### - After sort by name");
-            Comparator<Developer> devNameComparator = (o1, o2)-> o1.getName().compareTo(o2.getName());
-            getDevelopers().sort(devNameComparator.reversed());
+            System.out.println("#### - After sort by name and age");
+            Comparator<Developer> devNameComparator = Comparator
+                    .comparing(Developer::getName, Comparator
+                            .nullsLast(String::compareToIgnoreCase))
+                    .thenComparing(Developer::getAge, Comparator
+                            .nullsFirst(Integer::compareTo));
 
-            getDevelopers().forEach(System.out::println);
-/*
+            getDevelopers().stream().sorted(devNameComparator.reversed()).forEach(System.out::println);
+
+            System.out.println("#### - After sort by age");
+            getDevelopers().stream().sorted(Developer::compareAge).filter(d -> 20 < d.getAge()).forEach(System.out::println);
+
+            /*
             mapIteration();
 
             listIteration();
             */
         }
+
+
 
         public static void mapIteration() {
 
@@ -134,11 +148,12 @@
 
         public static List<Developer> getDevelopers(){
 
-            List<Developer> developers = new ArrayList<Developer>();
+            List<Developer> developers = new ArrayList<>();
 
             developers.add(new Developer("etienne", new BigDecimal(7000), 37));
-            developers.add(new Developer("manu", new BigDecimal(6000), 30));
+            developers.add(new Developer("manu", new BigDecimal(6000), 37));
             developers.add(new Developer("mathias", new BigDecimal(7900), 47));
+            developers.add(new Developer("rachid", new BigDecimal(1800), 18));
             developers.add(new Developer("rachid", new BigDecimal(1500), 17));
             developers.add(new Developer(null, new BigDecimal(0000), 00));
 

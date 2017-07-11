@@ -1,6 +1,7 @@
-package com.company;
+package com.labs.java8.model;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 
 /**
  * Created by rachid on 08/07/17.
@@ -48,5 +49,25 @@ public Developer(String name, BigDecimal salary, int age) {
                 ", salary=" + salary +
                 ", age=" + age +
                 '}';
+    }
+
+    private static Comparator<String> nullSafeStringComparator = Comparator
+            .nullsFirst(String::compareToIgnoreCase);
+
+    private static Comparator<Integer> nullSafeIntegerComparator = Comparator
+            .nullsFirst(Integer::compareTo);
+
+    private static Comparator<Developer> developerComparator = Comparator
+            .comparing(Developer::getName, nullSafeStringComparator)
+            .thenComparing(Developer::getAge, nullSafeIntegerComparator);
+
+    private static Comparator<Developer> developerAgeComparator = Comparator.comparing(Developer::getAge, nullSafeIntegerComparator);
+
+    public int compareTo(Developer that) {
+        return developerComparator.compare(this, that);
+    }
+
+    public int compareAge(Developer that) {
+        return developerAgeComparator.compare(this, that);
     }
 }
