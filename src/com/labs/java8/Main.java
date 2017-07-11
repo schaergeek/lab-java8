@@ -2,7 +2,6 @@
 
     import com.labs.java8.model.Developer;
 
-    import javax.swing.*;
     import java.math.BigDecimal;
     import java.util.*;
 
@@ -29,12 +28,7 @@
                 System.out.println(developer);
             }
 
-            Collections.sort(developers, new Comparator<Developer>() {
-                @Override
-                public int compare(Developer o1, Developer o2) {
-                    return o1.getAge() - o2.getAge();
-                }
-            });
+            developers.sort((o1, o2) -> o1.getAge() - o2.getAge());
             // After sort
 
             System.out.println("After sort");
@@ -98,7 +92,7 @@
 
             items.forEach((k,v)-> System.out.printf("Item: %s - count: %s\r\n", k,v));
 
-            System.out.println("Iterate map with lambdas - annoymous function");
+            System.out.println("Iterate map with lambdas - anonymous function");
 
             items.forEach((k,v)->{
                 System.out.printf("Item: %s - count: %s\r\n", k,v);
@@ -123,7 +117,7 @@
             items.add("I");
 
             System.out.println("List iteration with lambdas");
-            items.forEach(e-> System.out.println(e));
+            items.forEach(System.out::println);
 
             System.out.println("#### subList and sort iteration with lambdas");
             items.subList(items.size()-3,items.size()).stream().sorted(new Comparator<String>() {
@@ -155,7 +149,7 @@
             developers.add(new Developer("mathias", new BigDecimal(7900), 47));
             developers.add(new Developer("rachid", new BigDecimal(1800), 18));
             developers.add(new Developer("rachid", new BigDecimal(1500), 17));
-            developers.add(new Developer(null, new BigDecimal(0000), 00));
+            developers.add(new Developer(null, new BigDecimal(0), 0));
 
             return developers;
         }
